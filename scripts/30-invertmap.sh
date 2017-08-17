@@ -12,6 +12,10 @@ set -eu
 mkdir -p "$OUTDIR"
 
 for f in $(find "$INDIR" -maxdepth 1 -name '*.dat'); do
+    if [[ $f == *".inv.dat" ]]; then
+	echo "Skipping inverted $f ..." >&2
+	continue
+    fi
     b=$(basename $f .dat)
     o="$OUTDIR/"${b%.dat}.inv.dat
     if [[ -s "$o" && "$o" -nt "$f" ]]; then
