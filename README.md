@@ -1,0 +1,2 @@
+# uniprotidmap
+UniProt ID mappings
