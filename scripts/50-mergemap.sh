@@ -49,7 +49,11 @@ for f1 in "$files1"; do
 	b1=${b1%-idmapping}
 	b2=${b2%-idmapping}
 	o="$OUTDIR/$b1-$b2-idmapping.dat"
-	echo "Merging $f1 and $f2 to $o" >&2
-	python scripts/mergemappings.py "$f1" "$f2" > "$o"
+	if [[ -s "$o" && "$o" -nt "$f1" && "$o" -nt "$f2" ]]; then
+	    echo "Newer $o exists, skipping ..." >&2
+	else
+	    echo "Merging $f1 and $f2 to $o" >&2
+	    python scripts/mergemappings.py "$f1" "$f2" > "$o"
+	fi
     done
 done
