@@ -4,18 +4,23 @@
 
 SCRIPTDIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 
-INDIR="$SCRIPTDIR/../data/idmappings/"
+INDIRS="
+$SCRIPTDIR/../data/idmappings/
+$SCRIPTDIR/../data/mergedmappings/
+"
 OUTDIR="$SCRIPTDIR/../"
 
 set -eu
 
-for f in $(find "$INDIR" -maxdepth 1 -name '*.dat'); do
-    b=$(basename $f)
-    o="$OUTDIR/$b"
-    if [[ -e "$o" ]]; then
-	echo "$o exists, skipping ..." >&2
-    else
-	echo "Linking $o to $f ..." >&2
-	ln -s "$f" "$o"
-    fi
+for d in $INDIRS; do
+    for f in $(find "$d" -maxdepth 1 -name '*.dat'); do
+	b=$(basename $f)
+	o="$OUTDIR/$b"
+	if [[ -e "$o" ]]; then
+	    echo "$o exists, skipping ..." >&2
+	else
+	    echo "Linking $o to $f ..." >&2
+	    ln -s "$f" "$o"
+	fi
+    done
 done
