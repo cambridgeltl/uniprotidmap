@@ -12,11 +12,15 @@ set -eu
 mkdir -p "$OUTDIR"
 
 f="$INDIR/idmapping.dat.gz"
-o="$OUTDIR/GeneID-idmapping.dat"
+o="$OUTDIR/NCBIGENE-idmapping.dat"
 
 if [[ -s "$o" && "$o" -nt "$f" ]]; then
     echo "Newer $o exists, skipping ..." >&2
 else
     echo "Extracting mapping $f to $o..." >&2
-    zcat "$f" | egrep '^[^[:space:]]+'$'\tGeneID\t' > "$o"
+    zcat "$f" \
+	| egrep '^[^[:space:]]+'$'\tGeneID\t' \
+	| perl -pe 's/\t(\d+)$/\tNCBIGENE:$1/' \
+	| perl -pe 's/\tGeneID\t/\tNCBIGENE\t/' \
+        > "$o"
 fi
