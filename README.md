@@ -12,7 +12,7 @@ To download UniProt ID mapping data and generate derived mappings, run
 If succesful, this process generates the files `NCBIGENE-idmapping.dat`
 and `NCBIGENE-pr-idmapping.dat` and outputs "DONE" on completion.
 
-Note that his process downloads a 9GB file and may take long to
+Note that this process downloads a 9GB file and may take long to
 complete.
 
 ## Requirements
