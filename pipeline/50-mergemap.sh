@@ -35,7 +35,7 @@ $REPOURL. Try the following:
 
     cd ..
     git clone $REPOGIT
-    ./$REPONAME/REBUILD-DATA.sh
+    ./$REPONAME/REBUILD.sh
     cd -
 
 EOF
@@ -53,7 +53,7 @@ for f1 in "$files1"; do
 	    echo "Newer $o exists, skipping ..." >&2
 	else
 	    echo "Merging $f1 and $f2 to $o" >&2
-	    python scripts/mergemappings.py "$f1" "$f2" > "$o"
+	    python "$SCRIPTDIR/../scripts/mergemappings.py" "$f1" "$f2" > "$o"
 	fi
     done
 done

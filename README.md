@@ -7,7 +7,7 @@ Tools for working with UniProt ID mapping data
 
 To download UniProt ID mapping data and generate derived mappings, run
 
-    ./REBUILD-DATA.sh
+    ./REBUILD.sh
 
 If succesful, this process generates the files `NCBIGENE-idmapping.dat`
 and `NCBIGENE-pr-idmapping.dat` and outputs "DONE" on completion.
@@ -26,12 +26,12 @@ complete.
 - `mergemap` step fails with error `no .dat files`: this step requires
   that a copy of https://github.com/cambridgeltl/proteinontology is found
   in a sibling directory (`../proteinontology`) and that the script
-  `./REBUILD-DATA.sh` has been succesfully run there. This can be done
+  `./REBUILD.sh` has been succesfully run there. This can be done
   by running
 
       cd ..
       git clone git@github.com:cambridgeltl/proteinontology.git
-      ./proteinontology/REBUILD-DATA.sh
+      ./proteinontology/REBUILD.sh
       cd -
 
   in the root directory of this repository.
