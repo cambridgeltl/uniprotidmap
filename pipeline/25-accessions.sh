@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# Extract accession numbers from UniProt JSON data.
+# Extract accession numbers from UniProt data.
 
 SCRIPTDIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 
@@ -12,21 +12,26 @@ set -eu
 mkdir -p "$OUTDIR"
 
 set +e
-files=$(find "$INDIR" -maxdepth 1 -name '*-proteins.json' 2>/dev/null)
+files=$(find "$INDIR" -maxdepth 1 -name 'uniprot_*_human.dat.gz' 2>/dev/null)
 set -e
 
 if [[ ! -e "$INDIR" ]] || [[ -z "$files" ]]; then
-    echo "ERROR: no .input files found in $INDIR" >&2
+    echo "ERROR: no input files found in $INDIR" >&2
     exit 1
 fi
 
 for f in $files; do
-    bn=$(basename "$f")
-    o="$OUTDIR/${bn%-proteins.json}-accessions.txt"
+    bn=$(basename "$f" .dat.gz)
+    o="$OUTDIR/${bn#uniprot_}-accessions.txt"
     if [[ -s "$o" && "$o" -nt "$f" ]]; then
 	echo "Newer $o exists, skipping ..." >&2
     else
 	echo "Extracting accession numbers from $f to $o" >&2
-	python "$SCRIPTDIR/../scripts/getaccession.py" "$f" > "$o"
+	zcat "$f" \
+	    | egrep '^AC[[:space:]]' \
+	    | perl -pe 's/^AC\s*//' \
+	    | perl -pe 's/\s*;\s*/\n/g' \
+	    | egrep . \
+	    > "$o"
     fi
 done
