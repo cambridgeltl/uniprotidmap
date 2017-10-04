@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# Download source data.
+# Download UniProt ID mapping source data.
 
 SCRIPTDIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 
